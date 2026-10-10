@@ -5,6 +5,10 @@ description: Use when implementing, styling, reviewing, or refactoring VibeSlot'
 
 # VibeSlot UI — Neo-Brutalist Toy Arcade
 
+## Product name
+
+The user-facing product name is **EasySlot** (`design/PRODUCT_VISION.md` D28). Use it for the wordmark, `<title>`, share text and any visible branding. The concept art shows "VibeSlot" in the wordmark — render "EasySlot" in the same sticker style instead. "VibeSlot" stays only as the repo codename and in identifiers (`vibeslot-ui`, `--vs-*` tokens); do not rename those.
+
 ## Mission
 
 Build **a tangible, playful pocket toy**, not a dashboard, casino, ad landing page, or generic component-demo site.

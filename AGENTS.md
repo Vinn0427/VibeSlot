@@ -1,5 +1,9 @@
 # VibeSlot project instructions
 
+User-facing product name for V0.1 is **EasySlot** (wordmark, page titles,
+share text). "VibeSlot" remains only as the repository/codename, and in
+technical identifiers such as the `vibeslot-ui` skill and `--vs-` CSS tokens.
+
 ## VibeSlot frontend visual rules
 
 When implementing or reviewing any frontend page, UI component, responsive

@@ -1,4 +1,4 @@
-# CONTENT_DESIGN — VibeSlot V0.1（暂定名）
+# CONTENT_DESIGN — EasySlot V0.1
 
 > 文档版本：v0.3 ｜ 状态：评审中，结构已确认 ｜ 最后更新：2026-10-09
 >

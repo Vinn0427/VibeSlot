@@ -97,6 +97,7 @@ These examples are NOT authority:
 - Generated couple mocks may mention items such as "卧室里" that are not in the official preset. Use the official list.
 - Generated illustrations may attach food or gesture icons directly to every reel item. Official candidates only supply `label`; treat iconography as decoration, not promised content.
 - Some generated examples use confusing `锁定/解锁/已锁` wording. Follow the UX/PRD documented button semantics.
+- `01-home.png` shows the wordmark "VibeSlot"; the product name is **EasySlot** — keep the sticker wordmark style, change the text.
 - Some mockups show a lever. Don't implement it (UX §5.1).
 - `02-cook.png` shows the locked button in grey; follow UX §5.5 (ink-black fill) instead.
 - Mocked remaining spins/round index are just example states, not visible on every template at all times.
