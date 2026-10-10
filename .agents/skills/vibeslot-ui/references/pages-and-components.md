@@ -26,6 +26,7 @@ This document covers **visual structures**. Exact function, button semantics, st
 - On 320px, hide the brand-area mini machine illustration and sticker first.
 - No login, navigation drawer, leaderboard, or complex carousel.
 - Detailed homepage spec: `design/UX_DESIGN.md` §4.
+- Custom templates: blank ones use `custom` (toy blue); copied/imported ones keep the source scene color. Every custom template shows a small "自制" chip next to the play-page title (UX §5.2) — that chip, not color, distinguishes official vs. self-made.
 
 ## 3. SlotCabinet: the physical toy centerpiece
 

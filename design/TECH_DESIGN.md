@@ -1,6 +1,6 @@
 # TECH_DESIGN — EasySlot V0.1
 
-> 文档版本：v0.1 ｜ 状态：初稿，等待评审 ｜ 最后更新：2026-10-10
+> 文档版本：v0.2 ｜ 状态：评审中，关键选型已确认 ｜ 最后更新：2026-10-10
 >
 > 上位文档：`PRODUCT_VISION.md`、`PRD.md`、`CONTENT_DESIGN.md`、`UX_DESIGN.md`；视觉实现见 `.agents/skills/vibeslot-ui/`。
 > 本文只回答**代码怎么组织、数据怎么存、后端怎么做、怎么部署**，不重复功能规则和视觉规范；行为以 PRD 为准，本文与 PRD 冲突时以 PRD 为准并修正本文。
@@ -53,7 +53,7 @@
 | ID 生成 | nanoid（`customAlphabet`） | 体积小 |
 | 单元测试 | Vitest + @testing-library/react | 与 Vite 同配置 |
 | 端到端测试 | Playwright【P1】 | 有时间再做 |
-| 托管 / 后端 | Cloudflare Pages + Pages Functions + D1 | 见 §10，【待决策 T1】 |
+| 托管 / 后端 | Cloudflare Pages + Pages Functions + D1 | 见 §10，【已确认】 |
 | 统计 | Umami | 无 Cookie、支持自定义事件；见 §11，【待决策 T2】 |
 
 **禁止引入**（除非先修改本文）：UI 组件库（MUI、Ant Design、Chakra 等）、Tailwind 等原子化 CSS 框架、动画库（Framer Motion、GSAP 等）、彩纸库、日期库、Lodash、任何 AI SDK、任何音频库（V0.1 无音效）。
@@ -182,7 +182,7 @@ export interface Template {
   id: string;              // 预设：'cook' 等；自定义：'c_' + nanoid(10)
   kind: 'preset' | 'custom';
   mode: Mode;
-  theme: SceneTheme;       // 自定义模板一律为 'custom'
+  theme: SceneTheme;       // 新建自定义模板为 'custom'；复制 / 导入的继承来源主题色（D30）
   name: string;            // 1–20 字
   subtitle?: string;       // 首页卡片副标题（预设）
   reels: Reel[];           // 1–4 列（含可选列）
@@ -249,7 +249,11 @@ isExcluded(option) =
 - 预设以后新增带 `alcohol` 标签的选项，会自动处于排除状态；新增普通选项自动可用（PRD F13-2）。
 - 偏好中引用的已删除选项 ID 不影响计算，读取时顺带清理。
 
-> **与 PRD 的差异【建议，需同步 PRD F08-8】**：PRD 写的是“自定义模板的排除直接保存在模板数据里”。本文改为**预设与自定义统一存放在偏好中**，模板本身只描述内容。这样引擎和界面只有一条代码路径；复制、分享、删除时一并处理偏好即可（§9.3、§8.1）。行为对用户完全相同。
+> **预设与自定义的排除统一存放在偏好中**【已确认，PRD F08-8】，模板本身只描述内容，引擎和界面只有一条代码路径。必须同时处理偏好的操作：
+> - 复制模板：新模板的偏好 = 来源模板偏好的副本（排除、尺度、可选列开关、重转次数）。
+> - 分享模板：载荷中去掉已排除选项（§9.2），偏好不进入载荷。
+> - 删除模板：同时删除 `vs.prefs.byTemplate[id]`。
+> - 导入模板：新模板没有偏好，按模板默认值生效。
 
 ### 4.4 应用状态
 
@@ -431,7 +435,9 @@ interface SessionState {
 
 - `toggleExclude(templateId, optionId)`：若会让该列一个未排除项都不剩，返回 `{ ok: false, reason: 'lastOne' }`（PRD F08-6）。
 - `setTagGroup(templateId, tag, on)`：关闭 → 该组全部选项设为排除；打开 → 只恢复**不属于其他已关闭分组**的选项（PRD F22-4）；会让某列无选项时整体不执行（F22-5）。“分组是否关闭” = 该组全部选项均已排除。
-- `restoreAll(templateId)`：只清空 `excluded`，**不改动 `restored`**，因此默认排除分组（如饮酒）保持原状态；需要饮酒类时由用户在“内容类型”中打开。【建议，需同步 UX §8 与 PRD F08-10】
+- `restoreAll(templateId)`：清空 `excluded`，并把所有带默认排除标签的选项加入 `restored`，即**全部选项恢复可用，包括饮酒类**【已确认 D29，PRD F08-10】。确认框文案见 UX §8。
+- `restoreReel(templateId, reelId)`：同上，范围限定为一列（PRD F08-11）。
+- “已排除 N 项”= 该范围内 `isExcluded` 为真的选项数（包括默认排除分组中的选项）。
 
 ---
 
@@ -550,14 +556,14 @@ interface SharePayload {
 
 - 导入预览页拿到载荷后，用 `shared/schema.ts` 按 PRD F12 规则重新校验。
 - **直接转一下**：把 `{ payload, source }` 写入 sessionStorage `vs.sharedDraft`，跳转 `/play/shared`；该页从 draft 构造一个 `id: 'shared'` 的临时模板，偏好只存在内存中。刷新时从 draft 恢复；draft 不存在 → 回到首页。
-- **保存**：生成新 ID（`c_` + nanoid(10)）、同名时追加“（2）”“（3）”……（PRD F15）、`theme: 'custom'`，写入 `templatesStore`；然后 `navigate('/play/' + id, { replace: true })`。
+- **保存**：生成新 ID（`c_` + nanoid(10)）、同名时追加“（2）”“（3）”……（PRD F15）、`kind: 'custom'`，`theme` 沿用载荷中的值，写入 `templatesStore`；然后 `navigate('/play/' + id, { replace: true })`。
 - 达到 50 个上限时“保存”禁用，“直接转一下”可用（PRD F15-5）。
 
 ---
 
 ## 10. 后端：短链接服务
 
-### 10.1 选型【待决策 T1，推荐如下】
+### 10.1 选型【已确认：Cloudflare Pages + Pages Functions + D1】
 
 | 方案 | 结论 |
 |---|---|
@@ -565,7 +571,6 @@ interface SharePayload {
 | Cloudflare Pages + KV | **不推荐**：KV 是最终一致性存储，写入后其他地区可能需要数十秒才能读到。用户刚分享、朋友马上打开，可能会看到“链接已损坏” |
 | Vercel + 第三方 Redis | 需要两家服务，配置更多 |
 
-> 这一项与 PRD Q7、Vision P6 中的“KV”推荐不同，原因如上；确认后同步修改两处。
 
 D1 建库时指定靠近用户的位置提示（`--location apac`，以官方文档支持的取值为准）。免费额度以 Cloudflare 官方文档为准。
 
@@ -742,7 +747,7 @@ npm run build          # 输出 dist/，并打印各 chunk 的 gzip 体积
 | `VITE_FEEDBACK_URL` | 首页“意见反馈”链接；不配置则隐藏入口 | 否 |
 | D1 绑定 `DB` | 在 `wrangler.toml` 与 Pages 控制台中配置 | 是（生产） |
 
-### 16.3 部署【待决策 T1、T3】
+### 16.3 部署【域名待定 T3】
 
 1. 在 Cloudflare 创建 D1 数据库 `easyslot`，执行 `migrations/0001_create_shares.sql`。
 2. Cloudflare Pages 连接 GitHub 仓库 `Vinn0427/VibeSlot`：构建命令 `npm run build`，输出目录 `dist`，Node 版本 20；绑定 D1 为 `DB`；配置环境变量。
@@ -773,13 +778,13 @@ npm run build          # 输出 dist/，并打印各 chunk 的 gzip 体积
 
 ## 18. 与其他文档的同步项
 
-| 项 | 需要同步到 | 状态 |
+| 项 | 同步位置 | 状态 |
 |---|---|---|
-| 排除状态统一存放在偏好中（预设与自定义一致） | PRD F08-8、F13 存储内容表 | 待确认后同步 |
-| 短链接存储由 KV 改为 D1 | PRD §13 Q7、Vision P6 | 待确认后同步 |
-| “恢复全部排除”不影响默认排除分组（如饮酒） | UX §8、PRD F08-10 | 待确认后同步 |
-| 自定义模板（含复制自预设的）统一使用 `custom` 主题色 | UX §11 | 待确认后同步 |
-| 模板中新增 `hint` 字段（仅预设，cook 的 AI 预告） | CONTENT §4.2 | 待确认后同步 |
+| 排除状态统一存放在偏好中（预设与自定义一致） | PRD F08-8、F13 存储内容表 | 已同步 |
+| 短链接存储定为 D1 | Vision D21；PRD Q7、Vision P6 已关闭 | 已同步 |
+| “恢复全部排除”包括默认排除分组（如饮酒），确认框点明 | PRD F08-10/11、UX §7.2 / §8、Vision D29 | 已同步 |
+| 新建模板为玩具蓝，复制 / 导入的继承来源主题色，显示“自制”小标签 | PRD F12.1、UX §5.2 / §11、Vision D30 | 已同步 |
+| 模板中新增 `hint` 字段（仅预设，cook 的 AI 预告） | CONTENT §3.2 / §4.2 | 已同步 |
 
 ---
 
@@ -787,7 +792,6 @@ npm run build          # 输出 dist/，并打印各 chunk 的 gzip 体积
 
 | # | 问题 | 推荐默认值 |
 |---|---|---|
-| T1 | 托管与短链接存储 | Cloudflare Pages + Pages Functions + D1 |
 | T2 | 统计服务 | Umami Cloud |
 | T3 | 自有域名 | 上线前准备（Vision P4） |
 | T4 | WAF 限流不可用时的备选方案 | 函数内对哈希 IP 短时计数（需确认可接受） |
@@ -800,3 +804,4 @@ npm run build          # 输出 dist/，并打印各 chunk 的 gzip 体积
 | 日期 | 版本 | 变更 |
 |---|---|---|
 | 2026-10-10 | v0.1 | 初稿 |
+| 2026-10-10 | v0.2 | 确认 D1、偏好统一存放、`hint` 字段；“恢复全部”包括默认排除分组；复制 / 导入继承主题色 |
