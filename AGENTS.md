@@ -21,3 +21,16 @@ Follow the hierarchy stated in the skill; CONTENT owns preset labels and copy.
 
 Before completion, apply the skill's UI review checklist and report what was
 actually tested. For backend-only work, this UI skill is not required.
+
+## Implementation workflow
+
+- Implementation approach (stack, data model, storage, engine, animation,
+  backend, deployment, coding conventions) is defined in
+  `design/TECH_DESIGN.md`; follow its §17 conventions for every task.
+- Work is split into tasks T01–T13 in `design/IMPLEMENTATION_PLAN.md`.
+  Implement one task at a time, only within that task's scope, and report
+  against its acceptance criteria using the template in §7.1.
+- Do not add dependencies outside TECH_DESIGN §2, and never implement items
+  listed under PRD §12 (明确不做).
+- If docs conflict or a rule is missing, stop and list the issue instead of
+  deciding product behavior yourself.
