@@ -6,11 +6,12 @@ Place the entire `vibeslot-ui/` folder in the **VibeSlot repository**:
 
 ```text
 <repo-root>/
-├── AGENTS.md                         # optional but highly recommended
-├── PRODUCT_VISION.md
-├── PRD.md
-├── CONTENT_DESIGN.md
-├── UX_DESIGN.md
+├── AGENTS.md                         # project agent instructions (present)
+├── design/                           # product & design documents
+│   ├── PRODUCT_VISION.md
+│   ├── PRD.md
+│   ├── CONTENT_DESIGN.md
+│   └── UX_DESIGN.md
 └── .agents/
     └── skills/
         └── vibeslot-ui/
@@ -37,7 +38,8 @@ Visual target: Neo-Brutalism × hand-drawn stickers × tangible toy-machine feel
 Mobile Web is canonical (375px; support 320px); desktop shows a centered
 max-480px app canvas. Reuse shared tokens and components; do not copy reference
 mockups as images or invent option text. Product behavior is governed by
-PRODUCT_VISION.md, PRD.md, CONTENT_DESIGN.md and UX_DESIGN.md.
+design/PRODUCT_VISION.md, design/PRD.md, design/CONTENT_DESIGN.md and
+design/UX_DESIGN.md.
 
 Before completion, apply the Skill's UI review checklist and report what
 was actually tested. For backend-only work, this UI Skill is not required.
@@ -50,8 +52,9 @@ The snippet is useful because a Skill's discovery description can still be bypas
 Use direct invocation if needed:
 
 ```text
-Use $vibeslot-ui to implement the mobile home page according to the project
-PRD/UX docs, using the included `01-home.png` as visual art direction only.
+Use $vibeslot-ui to implement the mobile home page according to
+design/PRD.md and design/UX_DESIGN.md §4, using the included `01-home.png`
+as the approved target look (structure and copy still follow the docs).
 Maintain real semantic DOM controls, focus states, and no casino styling.
 Check 320px, 375px and desktop 480px canvas before reporting completion.
 ```
@@ -76,6 +79,11 @@ references/motion-responsive.md, and do not treat 02-cook.png as an exact spec.
 These are proposals; adjust after reviewing actual mobile pages:
 - Exact 6-color palette and shadow offsets.
 - How much sticker decoration a 320px screen can support.
-- Whether decorative cabinet handles should be eliminated to avoid casino associations and width overflow.
 - How much result text can be highlighted before it affects legibility.
 - How the first visual example translates to the shorter 375×667 viewport.
+
+Already decided in `design/UX_DESIGN.md` (no longer open):
+- Decorative cabinet handles/levers are **not implemented** (UX §5.1).
+- `01-home.png` is the approved homepage target (UX §4).
+- Locked reel buttons use an ink-black fill with off-white text (UX §5.5).
+- Desktop keyboard shortcuts are out of scope (UX §13).

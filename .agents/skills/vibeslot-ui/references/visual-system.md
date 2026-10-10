@@ -116,8 +116,8 @@ Use text outlines/white sticker backing only for decorative headings; not for lo
 
 - **Good:** orange cabinet / off-white reels / dark thick outlines / yellow micro-accents / white result ticket / yellow bottom button with a toy pressed state.
 - **Bad:** red translucent glass cabinet / neon border glow / gradients / huge confetti while spinning / tiny low-contrast result.
-- **Good:** lock state has clear `已锁` text + enclosed lock icon + saturated status background.
-- **Bad:** two lock states differ by a 10% tint shift only.
+- **Good:** lock state has clear `已锁` text + closed lock icon + ink-black fill with off-white text (stands out against any scene-colored cabinet; UX §5.5).
+- **Bad:** two lock states differ by a 10% tint shift only; locked state in grey (reads as disabled) or in the cabinet's own scene color (blends in).
 
 ## 8. References and interpretation
 

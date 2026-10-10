@@ -1,4 +1,4 @@
 interface:
   display_name: "VibeSlot Toy UI"
   short_description: "Build VibeSlot's mobile Neo-Brutalist toy interface"
-  default_prompt: "Use $vibeslot-ui to implement or review this VibeSlot UI against the project docs, visual references, mobile layout and motion checklist."
+  default_prompt: "Use $vibeslot-ui to implement or review this VibeSlot UI against the project docs in design/, visual references, mobile layout and motion checklist."

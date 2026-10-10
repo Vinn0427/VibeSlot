@@ -23,12 +23,12 @@ Use for all VibeSlot frontend tasks including: homepage, scene card, `/play/*`, 
 
 ## Source of truth / conflict resolution
 
-Read the project documentation **before editing related UI**. The project files, when present, outrank this Skill for product semantics:
+Read the project documentation in `design/` **before editing related UI**. These files outrank this Skill for product semantics:
 
-1. `PRODUCT_VISION.md`: product principles, especially *像游戏，不像赌博* and mobile-first.
-2. `PRD.md`: required behavior, allowed content, state machine, button labels, performance, share workflow and accessibility.
-3. `CONTENT_DESIGN.md`: canonical scene labels, content groups, sentence templates, notices, notes. **Do not invent, paraphrase, or replace option labels.**
-4. `UX_DESIGN.md`: layout, component placement, reel structure, timings, and interaction specs.
+1. `design/PRODUCT_VISION.md`: product principles, especially *像游戏，不像赌博* and mobile-first.
+2. `design/PRD.md`: required behavior, allowed content, state machine, button labels, performance, share workflow and accessibility.
+3. `design/CONTENT_DESIGN.md`: canonical scene labels, content groups, sentence templates, notices, notes. **Do not invent, paraphrase, or replace option labels.**
+4. `design/UX_DESIGN.md`: layout, component placement, reel structure, timings, and interaction specs. UX references this Skill for visual values (colors, outlines, shadows, fonts, stickers) instead of redefining them.
 5. **This Skill**: visual implementation system, production constraints and visual QA.
 
 If a design reference conflicts with any written rule, the written rule wins. If docs conflict with each other, use their stated hierarchy (Vision > PRD > UX; Content owns preset copy), flag the conflict and avoid silently changing product decisions.
@@ -46,7 +46,7 @@ The reference images are **concept art, not verified UI specifications**. Some s
 | Installing and keeping the Skill triggered | `references/integration.md` |
 
 Art direction references (local to this Skill):
-- `assets/ui-references/01-home.png` — brand, home cards, color blocks.
+- `assets/ui-references/01-home.png` — brand, home cards, color blocks. **Approved as the homepage target look** (`design/UX_DESIGN.md` §4); structure and copy still follow the docs.
 - `assets/ui-references/02-cook.png` — unified cabinet, three reels, result hierarchy.
 - `assets/ui-references/03-couple.png` — pink variation, intensity selector, game actions.
 - `assets/ui-references/04-party-settings.png` — yellow variation, bottom-sheet switches.
@@ -71,7 +71,7 @@ Use these images to understand **visual density, outlines, stickers, palette and
 - **Visual grammar**: solid colors + 2–4px black outlines + hard offset shadows, no frosted glass, gradients, glossy 3D chrome, blurry glows or soft neumorphic cards.
 - **Decorative restraint**: stickers, hearts, stars, food doodles, hand-drawn bursts are accents, not UI labels. Avoid clutter at 320px.
 - **Scene consistency**: one dominant scene color and at most two secondary accent colors on an individual play page; homepage may show all five.
-- **No casino cues**: avoid `777`, cherries, `BAR`, coins, chips, betting, jackpot, winning language, red-gold casino decor, metallic gambling-machine realism. Decorative toy handles from concept art must not displace the primary button or imply gambling.
+- **No casino cues**: avoid `777`, cherries, `BAR`, coins, chips, betting, jackpot, winning language, red-gold casino decor, metallic gambling-machine realism. **Do not implement the decorative pull handles/levers** seen in concept art (UX §5.1); the primary button is the only spin trigger.
 - **No generic SaaS**: avoid purple/blue gradients, glass cards, endless rounded white cards, sidebars, abstract AI glow and dashboard widgets.
 - **Text is product content**: short, readable Chinese reel labels; show option `label` as authored. Ellipsize inside narrow reels, show full text in result ticket.
 - **Correct state over attractive mockup**: in `idle` the preview is not a result; only selected reels spin; locked reel stays frozen; `spinning` disables specified controls; skip/“换一个” is always accessible in game mode.
@@ -86,7 +86,7 @@ Use these images to understand **visual density, outlines, stickers, palette and
 - 2D illustrated SVG iconography with rounded ends and bold strokes; avoid platform-dependent emoji as production icons.
 - Reels display three vertical text rows (previous / current / next), with the centered active row emphasized. Build one scene-colored cabinet enclosing all reels.
 - Result ticket is off-white, bold and typographic; emphasize selected words using a restrained scene accent/highlight.
-- Use icon + text for lock controls; distinguish lock states through text, outline and color, never color alone.
+- Use icon + text for lock controls; distinguish lock states through text, outline and color, never color alone. Locked = ink-black fill + off-white text + closed lock icon, pressed (no shadow); unlocked = light fill + outline + hard shadow (UX §5.5). Don't use grey for locked — it reads as disabled.
 
 ## Handoff quality bar
 

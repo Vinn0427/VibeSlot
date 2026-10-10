@@ -22,7 +22,10 @@ This document covers **visual structures**. Exact function, button semantics, st
 - Pressed state: card translates ~2–3px down/right and shadow becomes shorter. Motion must not shift neighboring cards.
 - A card itself is one large focusable/tappable link. Do not place inert arrow-buttons inside a clickable card as separate focus targets.
 - Small card copy may be truncated gracefully; titles must remain fully readable if possible. Show all five presets and creation entry on a scrollable phone home page (no need to force into one viewport).
+- "我的老虎机" list items use **one generic icon** (e.g. a small toy slot machine) for every custom template. Do not infer illustrations from user-written template content (the toast/drink art in `01-home.png` is only an example).
+- On 320px, hide the brand-area mini machine illustration and sticker first.
 - No login, navigation drawer, leaderboard, or complex carousel.
+- Detailed homepage spec: `design/UX_DESIGN.md` §4.
 
 ## 3. SlotCabinet: the physical toy centerpiece
 
@@ -49,7 +52,7 @@ PlayScreen
 - Width equals the available cabinet width distributed among N reels with fixed narrow gaps. 1–2 reels stay centered, not stretched to comical width.
 - Each lock has an independent ≥44px-tall hit area, but the caption can be shortened for a 4-reel case while preserving an accessible full label.
 - Lock can only become interactive after a valid result. Locked reel does not move, shake, or pulse during subsequent spins.
-- A decorative handle is **optional and purely ornamental**. On 320–375px it may be removed entirely to avoid horizontal overflow, accidental tap confusion and gambling resemblance. The real action is always the primary button.
+- **No decorative handle/lever** (decided in UX §5.1): it causes horizontal overflow, tap confusion and gambling resemblance. The real action is always the primary button.
 - Don't use a huge fixed-height illustration: the cabinet must fit on a 375×667 viewport alongside a readable result card and persistent CTA with vertical scroll if necessary.
 
 ### Reel structure and text
@@ -60,7 +63,7 @@ PlayScreen
 - Results are chosen **before** animation per PRD. The reel animation reveals the precomputed result, never decides the value.
 - If truncated inside reel (`text-overflow: ellipsis`), show full option in result ticket and option list sheet.
 
-## 4. ResultTicket: paper reward
+## 4. ResultTicket: paper decision slip
 
 - Appears only after the final participating reel lands; animate in lightly.
 - Information order: small result labels (joined with ×), prominent template `sentence`, optional `note`/scene hint, then context actions. For custom template without sentence, show joined labels once at large size.
@@ -94,5 +97,6 @@ These examples are NOT authority:
 - Generated couple mocks may mention items such as "卧室里" that are not in the official preset. Use the official list.
 - Generated illustrations may attach food or gesture icons directly to every reel item. Official candidates only supply `label`; treat iconography as decoration, not promised content.
 - Some generated examples use confusing `锁定/解锁/已锁` wording. Follow the UX/PRD documented button semantics.
-- Some mockups show a lever. Don't require it; it must not replace primary tap, intrude into 320px widths, or resemble a gambling device.
+- Some mockups show a lever. Don't implement it (UX §5.1).
+- `02-cook.png` shows the locked button in grey; follow UX §5.5 (ink-black fill) instead.
 - Mocked remaining spins/round index are just example states, not visible on every template at all times.

@@ -4,14 +4,14 @@ Use this at the end of each frontend change. Do not mark checks as passed if not
 
 ## A. Product correctness (block release on failure)
 
-- [ ] Page and copy respect the actual project Vision/PRD/CONTENT/UX, not generated reference art.
+- [ ] Page and copy respect the actual project docs in `design/` (Vision/PRD/CONTENT/UX), not generated reference art.
 - [ ] All 5 preset scenes and custom templates use the correct scene structure; no invented options, metadata or unauthorized features.
 - [ ] Correct `idle` → `spinning` → `result` → `accepted` logic by `decision`/`game` mode.
 - [ ] Precomputed random result; only unlocked/enabled reels move; left-to-right stop sequence.
 - [ ] Lock can be selected only in allowed states; all locked disables the main action.
 - [ ] Optional reel starts hidden where prescribed; hidden reel is removed from visual/result.
 - [ ] Party content type toggles and couple intensity filters map to existing business rules.
-- [ ] Result ticket uses actual sentence, exact labels and optional note/notice; no invented descriptions.
+- [ ] Result ticket uses actual sentence, exact labels and optional `note`; no invented descriptions. (`notice` is the first-entry dialog, not ticket content.)
 - [ ] Buttons show exactly state-appropriate Chinese labels (not whatever appears in a drawing).
 - [ ] No casino/monetization/excess alcohol/sexualized illustrations or copy.
 
@@ -21,7 +21,8 @@ Use this at the end of each frontend change. Do not mark checks as passed if not
 - [ ] Scene color is dominant in the cabinet; color roles remain consistent across screens.
 - [ ] Homepage has one leading cook card and four smaller scene cards unless UX changed.
 - [ ] Reels sit in ONE visually unified toy cabinet, not three disconnected cards.
-- [ ] Result ticket looks like a tangible paper prize/decision slip, with large readable sentence.
+- [ ] Result ticket looks like a tangible paper decision slip (not a prize/reward), with large readable sentence.
+- [ ] No decorative lever; locked buttons use ink-black fill (UX §5.1, §5.5).
 - [ ] Decorational SVGs share line weight, proportions and fill style; no platform emoji.
 - [ ] Doodles never cover Chinese labels, hit targets, or important state indicators.
 - [ ] Press/down, lock/unlock, active segment, disabled/spinning state are identifiable without relying solely on color.

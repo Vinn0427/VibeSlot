@@ -14,18 +14,18 @@ Copy this entire folder to:
 <your-project>/.agents/skills/vibeslot-ui/
 ```
 
-If the repo has `AGENTS.md`, append the trigger snippet from `references/integration.md` to reinforce automatic use. The skill expects the original VibeSlot design documents to live in the repository (their actual location can vary; adapt instructions if needed):
+The repo's `AGENTS.md` already contains the trigger snippet from `references/integration.md`. The VibeSlot design documents live in `design/`:
 
-- `PRODUCT_VISION.md`
-- `PRD.md`
-- `CONTENT_DESIGN.md`
-- `UX_DESIGN.md`
+- `design/PRODUCT_VISION.md`
+- `design/PRD.md`
+- `design/CONTENT_DESIGN.md`
+- `design/UX_DESIGN.md`
 
 Read `SKILL.md` first. Only read the reference file relevant to the coding task to save context.
 
 ## Visual references
 
-`assets/ui-references/01-home.png` through `04-party-settings.png` are the design direction the user approved. They are **generated conceptual images**, not screenshots of functional software and not precise content/state specifications.
+`assets/ui-references/01-home.png` through `04-party-settings.png` are the design direction the user approved; `01-home.png` is additionally confirmed as the homepage target look (see `design/UX_DESIGN.md` §4). They are **generated conceptual images**, not screenshots of functional software and not precise content/state specifications.
 
 ## Boundaries
 
